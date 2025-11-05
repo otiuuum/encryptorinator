@@ -1,23 +1,50 @@
 #include <iostream>
 #include <vector>
+#include <sstream>
+#include <limits>
+#include "rsa.h"
+
 using namespace std;
-bool file_or_text (bool file = 0) {
-    cout << "Choose options and write number:\n1.File\n2.Text\n";
-    char choose;
-    cin >> choose;
-    switch (choose)
-    {
-    case '1':
-        return (1);
-    case '2':
-        return (0);
-    default:
-        cout << "invalid input";
-        return (file_or_text(file = 0));
+
+int main() {
+    cout << "=== Encryptorinator (RSA only) ===\n";
+    while (true) {
+        cout << "\nКоманды: g - сгенерировать ключи, e - зашифровать, d - расшифровать, q - выход\nВыберите: ";
+        char opt; if (!(cin >> opt)) break;
+        if (opt == 'q' || opt == 'Q') break;
+
+        if (opt == 'g' || opt == 'G') {
+            unsigned seed = 0;
+            cout << "Введите seed (0 - случайный): ";
+            cin >> seed;
+            cmd_genkeys(seed);
+        } else if (opt == 'e' || opt == 'E') {
+            unsigned long long n, e;
+            cout << "Введите n и e через пробел: ";
+            cin >> n >> e;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Введите сообщение (строка): ";
+            string message;
+            getline(cin, message);
+            cmd_encrypt(n, e, message);
+        } else if (opt == 'd' || opt == 'D') {
+            unsigned long long n, d;
+            cout << "Введите n и d через пробел: ";
+            cin >> n >> d;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Введите последовательность чисел (через пробел): ";
+            string line;
+            getline(cin, line);
+            stringstream ss(line);
+            unsigned long long x;
+            vector<unsigned long long> cipher;
+            while (ss >> x) cipher.push_back(x);
+            cmd_decrypt(n, d, cipher);
+        } else {
+            cout << "Неизвестная опция.\n";
+        }
     }
-}
-int main () {
-    bool file = 0;
-    file_or_text(file);
-    return (0);
+
+    cout << "Выход.\n";
+    return 0;
 }
