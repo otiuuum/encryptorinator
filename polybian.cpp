@@ -7,15 +7,15 @@
 using namespace std;
 
 class PolybianSquare {
+
 private:
-    wchar_t square[7][7];  // Увеличиваем размер до 7x7 для цифр
-    
+    wchar_t square[9][9];  // Размер квадрата
     void initializeSquare() {
-        const wchar_t alphabet[] = L"АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ0123456789";
+        const wchar_t alphabet[] = L"АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ,!.\"?*:;-";
         int index = 0;
-        for(int i = 0; i < 7; i++) {
-            for(int j = 0; j < 7; j++) {
-                if(index < 43) {  // 33 буквы + 10 цифр
+        for(int i = 0; i < 9; i++) {
+            for(int j = 0; j < 9; j++) {
+                if(index < 81) {  // 33 буквы + 10 цифр
                     square[i][j] = alphabet[index++];
                 } else {
                     square[i][j] = L' ';
@@ -31,8 +31,8 @@ public:
     
     void printSquare() {
         wcout << L"Квадрат Полибия:\n";
-        for(int i = 0; i < 7; i++) {
-            for(int j = 0; j < 7; j++) {
+        for(int i = 0; i < 9; i++) {
+            for(int j = 0; j < 9; j++) {
                 wcout << square[i][j] << L" ";
             }
             wcout << endl;
@@ -49,12 +49,11 @@ public:
             }
             
             // Ищем символ в квадрате
-            for(int i = 0; i < 7; i++) {
-                for(int j = 0; j < 7; j++) {
+            for(int i = 0; i < 9; i++) {
+                for(int j = 0; j < 9; j++) {
                     if(square[i][j] == c) {
                         result += to_wstring(i+1) + to_wstring(j+1);
-                        wcout << L"Найден символ '" << c << L"' на позиции " 
-                              << (i+1) << (j+1) << endl;
+                        //wcout << L"Найден символ '" << c << L"' на позиции " << (i+1) << (j+1) << endl;
                     }
                 }
             }
@@ -68,7 +67,7 @@ public:
             if(i+1 < code.length()) {
                 int row = code[i] - L'1';
                 int col = code[i+1] - L'1';
-                if(row >= 0 && row < 7 && col >= 0 && col < 7) {
+                if(row >= 0 && row < 9 && col >= 0 && col < 9) {
                     result += square[row][col];
                     wcout << L"Расшифровываем позицию " << (row+1) << (col+1) 
                           << L" -> '" << square[row][col] << L"'" << endl;
