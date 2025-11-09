@@ -23,4 +23,4 @@ int cmd_genkeys(unsigned seed);
 int cmd_encrypt(unsigned long long n, unsigned long long e, const std::string &message);
 int cmd_decrypt(unsigned long long n, unsigned long long d, const std::vector<unsigned long long> &cipher);
 
-#endif // RSA_H
+#endif
