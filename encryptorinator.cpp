@@ -8,7 +8,6 @@
 #include "polybian.h"
 #include "double_change.h"
 #include "fileops.h"
-using namespace std;
 
 int main () {
     while (true) {
@@ -56,7 +55,7 @@ int main () {
             std::cout << "Имя выходного файла: "; std::cin >> outfile;
             std::vector<char> data = readFile(infile.c_str());
             
-            std::cout << "Выберите способ (1-RSA, 2-Двойная перестановка, 3-Полибиус): ";
+            std::cout << "Выберите способ (1-RSA, 2-Двойная перестановка, 3-Полибианский квадрат): ";
             int choice; std::cin >> choice;
 
             switch(choice) {
@@ -86,7 +85,7 @@ int main () {
                 }
                 case 2: {
                     int cols, rows;
-                    std::cout << "Число столбцов и строк таблицы: "; 
+                    std::cout << "Размер допустимых данных = <столбцы>*<строки> байт. В связи с этим рекомендуется шифровать только небольшие текстовые файлы. Введите число столбцов и строк таблицы: "; 
                     std::cin >> cols >> rows;
                     std::vector<int> keyCols(cols), keyRows(rows);
                     std::cout << "Ключ перестановки столбцов (" << cols << " чисел): ";
@@ -94,23 +93,26 @@ int main () {
                     std::cout << "Ключ перестановки строк (" << rows << " чисел): ";
                     for(int i=0;i<rows;i++) std::cin>>keyRows[i];
                     if (encrypt) {
-                        std::vector<char> enc = doubleEncrypt(data, keyCols, keyRows, rows, cols);
+                        std::vector<char> enc = doubleEncrypt(data, keyRows, keyCols);
                         writeFile(outfile.c_str(), enc);
                     } else {
-                        std::vector<char> dec = doubleDecrypt(data, keyCols, keyRows, rows, cols);
+                        std::vector<char> dec = doubleDecrypt(data, keyRows, keyCols);
                         writeFile(outfile.c_str(), dec);
                     }
                     break;
                 }
                 case 3: {
                     int size;
+                    std::string password_pol;
                     std::cout << "Размер таблицы (напр., 10 для 10x10): "; 
                     std::cin >> size;
+                    std::cout << "Введите пароль: ";
+                    std::getline(std::cin, password_pol);
                     if (encrypt) {
-                        std::vector<char> enc = polybianEncrypt(data, size);
+                        std::vector<char> enc = polybianEncrypt(data, size, password_pol);
                         writeFile(outfile.c_str(), enc);
                     } else {
-                        std::vector<char> dec = polybianDecrypt(data, size);
+                        std::vector<char> dec = polybianDecrypt(data, size, password_pol);
                         writeFile(outfile.c_str(), dec);
                     }
                     break;

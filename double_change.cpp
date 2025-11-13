@@ -5,25 +5,25 @@
 using namespace std;
 
 // Функция для шифрования методом двойной перестановки
-string doublePermutationEncrypt(const string& text, const vector<int>& key1, const vector<int>& key2) {
-    int n = key1.size();
-    int m = key2.size();
+string doubleEncrypt(const std::vector<char>& data, const vector<int>& keyRows, const vector<int>& keyCols) {
+    int n = keyRows.size();
+    int m = keyCols.size();
     
     // Создаем и заполняем таблицу
     vector<vector<char>> table(n, vector<char>(m));
     int pos = 0;
-    for (int i = 0; i < n && pos < text.length(); i++) {
-        for (int j = 0; j < m && pos < text.length(); j++) {
-            table[i][j] = text[pos++];
+    for (int i = 0; i < n && pos < data.size(); i++) {
+        for (int j = 0; j < m && pos < data.size(); j++) {
+            table[i][j] = data[pos++];
         }
     }
     
     // Применяем перестановки
     string result;
     // Вторая перестановка (по столбцам)
-    for (int col : key2) {
+    for (int col : keyCols) {
         // Первая перестановка (по строкам)
-        for (int row : key1) {
+        for (int row : keyRows) {
             if (row < n && col < m) {
                 result += table[row][col];
             }
@@ -34,19 +34,19 @@ string doublePermutationEncrypt(const string& text, const vector<int>& key1, con
 }
 
 // Функция для дешифрования методом двойной перестановки
-string doublePermutationDecrypt(const string& text, const vector<int>& key1, const vector<int>& key2) {
-    int n = key1.size();
-    int m = key2.size();
+string doubleDecrypt(const std::vector<char>& data, const vector<int>& keyRows, const vector<int>& keyCols) {
+    int n = keyRows.size();
+    int m = keyCols.size();
     
     // Создаем пустую таблицу
     vector<vector<char>> table(n, vector<char>(m, ' '));
     
     // Обратное заполнение таблицы
     int pos = 0;
-    for (int col : key2) {
-        for (int row : key1) {
-            if (row < n && col < m && pos < text.length()) {
-                table[row][col] = text[pos++];
+    for (int col : keyCols) {
+        for (int row : keyRows) {
+            if (row < n && col < m && pos < data.size()) {
+                table[row][col] = data[pos++];
             }
         }
     }

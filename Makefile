@@ -8,5 +8,5 @@ all:
 	g++ -shared -o libdouble_change.so double_change.o
 	g++ -c -fPIC polybian.cpp -o polybian.o
 	g++ -shared -o libpolybian.so polybian.o
-	LD_LIBRARY_PATH=. ./cryptotool
-	g++ main.cpp -L. -lfileops -lrsa -ldouble_change -lpolybian -o encryptorinator
+	g++ encryptorinator.cpp -L. -lfileops -lrsa -ldouble_change -lpolybian -o encryptorinator
+	LD_LIBRARY_PATH=. ./encryptorinator
