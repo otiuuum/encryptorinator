@@ -2,21 +2,22 @@
 #include "fileops.h"
 #include <fstream>
 #include <vector>
+using namespace std;
 
-std::vector<char> readFile(const char* filename) {
-    std::ifstream file(filename, std::ios::binary);
-    std::vector<char> data;
+vector<char> readFile(const char* filename) {
+    ifstream file(filename, ios::binary);
+    vector<char> data;
     if (file) {
-        file.seekg(0, std::ios::end);
+        file.seekg(0, ios::end);
         size_t size = file.tellg();
         data.resize(size);
-        file.seekg(0, std::ios::beg);
+        file.seekg(0, ios::beg);
         file.read(data.data(), size);
     }
     return data;
 }
 
-void writeFile(const char* filename, const std::vector<char>& data) {
-    std::ofstream file(filename, std::ios::binary);
+void writeFile(const char* filename, const vector<char>& data) {
+    ofstream file(filename, ios::binary);
     file.write(data.data(), data.size());
 }

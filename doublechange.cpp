@@ -6,7 +6,7 @@
 using namespace std;
 
 // Функция для шифрования методом двойной перестановки
-std::vector<char> doubleEncrypt(const std::vector<char>& data, const vector<int>& keyRows, const vector<int>& keyCols) {
+vector<char> doubleEncrypt(const vector<char>& data, const vector<int>& keyRows, const vector<int>& keyCols) {
     int n = keyRows.size();
     int m = keyCols.size();
     
@@ -20,7 +20,7 @@ std::vector<char> doubleEncrypt(const std::vector<char>& data, const vector<int>
     } //эт вообще че такое *убрал, случайно попало
     
     // Применяем перестановки
-    std::vector<char> result;
+    vector<char> result;
     // Вторая перестановка (по столбцам)
     for (int col : keyCols) {
         // Первая перестановка (по строкам)
@@ -35,7 +35,7 @@ std::vector<char> doubleEncrypt(const std::vector<char>& data, const vector<int>
 }
 
 // Функция для дешифрования методом двойной перестановки
-std::vector<char> doubleDecrypt(const std::vector<char>& data, const vector<int>& keyRows, const vector<int>& keyCols) {
+vector<char> doubleDecrypt(const vector<char>& data, const vector<int>& keyRows, const vector<int>& keyCols) {
     int n = keyRows.size();
     int m = keyCols.size();
     
@@ -53,7 +53,7 @@ std::vector<char> doubleDecrypt(const std::vector<char>& data, const vector<int>
     }
     
     // Чтение текста по порядку
-    std::vector<char> result;
+    vector<char> result;
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
             if (table[i][j] != ' ') {

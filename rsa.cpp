@@ -1,5 +1,6 @@
 #include "rsa.h"
 #include <cmath>
+using namespace std;
 
 // Вычисление НОД (е. Алгоритм Евклида)
 int gcd(int a, int b) {
@@ -38,16 +39,16 @@ void rsaKeygen(int p, int q, int &n, int &e, int &d) {
     d = modInverse(e, phi);
 }
 
-std::vector<long long> rsaEncrypt(const std::vector<char>& data, int e, int n) {
-    std::vector<long long> cipher;
+vector<long long> rsaEncrypt(const vector<char>& data, int e, int n) {
+    vector<long long> cipher;
     for (char c : data) {
         long long m = (unsigned char)c;
         cipher.push_back(modPow(m, e, n));
     }
     return cipher;
 }
-std::vector<char> rsaDecrypt(const std::vector<long long>& data, int d, int n) {
-    std::vector<char> plain;
+vector<char> rsaDecrypt(const vector<long long>& data, int d, int n) {
+    vector<char> plain;
     for (long long C : data) {
         long long m = modPow(C, d, n);
         plain.push_back((char)m);
