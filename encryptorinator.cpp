@@ -6,7 +6,7 @@
 #include <limits>
 #include "rsa.h"
 #include "polybian.h"
-#include "double_change.h"
+#include "doublechange.h"
 #include "fileops.h"
 
 int main () {
@@ -85,7 +85,7 @@ int main () {
                 }
                 case 2: {
                     int cols, rows;
-                    std::cout << "Размер допустимых данных = <столбцы>*<строки> байт. В связи с этим рекомендуется шифровать только небольшие текстовые файлы. Введите число столбцов и строк таблицы: "; 
+                    std::cout << "Размер допустимых данных = <столбцы>*<строки> байт. Применяется блочное шифрование."; 
                     std::cin >> cols >> rows;
                     std::vector<int> keyCols(cols), keyRows(rows);
                     std::cout << "Ключ перестановки столбцов (" << cols << " чисел): ";
@@ -93,7 +93,8 @@ int main () {
                     std::cout << "Ключ перестановки строк (" << rows << " чисел): ";
                     for(int i=0;i<rows;i++) std::cin>>keyRows[i];
                     if (encrypt) {
-                        std::vector<char> enc = doubleEncrypt(data, keyRows, keyCols);
+                        std::vector<char> enc = doubleEncrypt(data, keyRows, keyCols); //с двух сторон нельзя использовать то ли string
+                                                                                        //то ли vector char
                         writeFile(outfile.c_str(), enc);
                     } else {
                         std::vector<char> dec = doubleDecrypt(data, keyRows, keyCols);

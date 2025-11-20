@@ -1,11 +1,12 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include "doublechange.h"
 
 using namespace std;
 
 // Функция для шифрования методом двойной перестановки
-string doubleEncrypt(const std::vector<char>& data, const vector<int>& keyRows, const vector<int>& keyCols) {
+std::vector<char> doubleEncrypt(const std::vector<char>& data, const vector<int>& keyRows, const vector<int>& keyCols) {
     int n = keyRows.size();
     int m = keyCols.size();
     
@@ -16,16 +17,16 @@ string doubleEncrypt(const std::vector<char>& data, const vector<int>& keyRows, 
         for (int j = 0; j < m && pos < data.size(); j++) {
             table[i][j] = data[pos++];
         }
-    }
+    } //эт вообще че такое *убрал, случайно попало
     
     // Применяем перестановки
-    string result;
+    std::vector<char> result;
     // Вторая перестановка (по столбцам)
     for (int col : keyCols) {
         // Первая перестановка (по строкам)
         for (int row : keyRows) {
             if (row < n && col < m) {
-                result += table[row][col];
+                result.push_back(table[row][col]);
             }
         }
     }
@@ -34,7 +35,7 @@ string doubleEncrypt(const std::vector<char>& data, const vector<int>& keyRows, 
 }
 
 // Функция для дешифрования методом двойной перестановки
-string doubleDecrypt(const std::vector<char>& data, const vector<int>& keyRows, const vector<int>& keyCols) {
+std::vector<char> doubleDecrypt(const std::vector<char>& data, const vector<int>& keyRows, const vector<int>& keyCols) {
     int n = keyRows.size();
     int m = keyCols.size();
     
@@ -52,11 +53,11 @@ string doubleDecrypt(const std::vector<char>& data, const vector<int>& keyRows, 
     }
     
     // Чтение текста по порядку
-    string result;
+    std::vector<char> result;
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
             if (table[i][j] != ' ') {
-                result += table[i][j];
+                result.push_back(table[i][j]);
             }
         }
     }
